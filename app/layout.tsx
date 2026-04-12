@@ -36,6 +36,8 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
+import { ToastProvider } from '@/components/ToastProvider'
+
 export default async function RootLayout({
   children,
 }: {
@@ -97,7 +99,9 @@ export default async function RootLayout({
         )}
       </head>
       <body className={`${geist.variable} font-sans antialiased`}>
-        {children}
+        <ToastProvider>
+          {children}
+        </ToastProvider>
       </body>
     </html>
   )

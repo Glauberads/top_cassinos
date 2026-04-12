@@ -36,6 +36,43 @@ export async function registerUser(data: { name: string; email: string; password
   }
 }
 
+export async function adminCreateUser(data: { name: string; email: string; password: string; role: 'ADMIN' | 'USER' }) {
+  const session = await getServerSession(authOptions)
+  
+  if (!session || session.user.role !== 'ADMIN') {
+    throw new Error('Não autorizado')
+  }
+
+  const { name, email, password, role } = data
+
+  try {
+    // 1. Verificar se usuário já existe
+    const existing = await prisma.user.findUnique({ where: { email } })
+    if (existing) {
+      return { success: false, error: 'Este e-mail já está cadastrado' }
+    }
+
+    // 2. Criptografar senha
+    const hashedPassword = await bcrypt.hash(password, 12)
+
+    // 3. Criar usuário
+    await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+        role,
+      },
+    })
+
+    revalidatePath('/admin/configuracoes/usuarios')
+    return { success: true }
+  } catch (err) {
+    console.error('Erro na criação de usuário (Admin):', err)
+    return { success: false, error: 'Falha ao criar usuário' }
+  }
+}
+
 export async function updateUserRole(userId: string, role: 'ADMIN' | 'USER') {
   const session = await getServerSession(authOptions)
   

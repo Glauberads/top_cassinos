@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth/next'
 import { redirect } from 'next/navigation'
 import { Users as UsersIcon } from 'lucide-react'
 import { UserTable } from './UserTable'
+import { AddUserModal } from './AddUserModal'
 
 export const metadata = {
   title: 'Gestão de Usuários | Admin',
@@ -38,6 +39,8 @@ export default async function UsuariosPage() {
             <p className="text-zinc-400">Total de {users.length} usuários cadastrados no sistema.</p>
           </div>
         </div>
+        
+        <AddUserModal />
       </div>
 
       <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
