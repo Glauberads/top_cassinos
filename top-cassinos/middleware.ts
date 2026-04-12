@@ -16,7 +16,9 @@ export async function middleware(request: NextRequest) {
       secret: process.env.NEXTAUTH_SECRET,
     })
 
-    if (!isLoginPage && !token) {
+    const is403Page = pathname === '/admin/403'
+
+    if (!isLoginPage && !is403Page && !token) {
       const loginUrl = new URL('/admin/login', request.url)
       loginUrl.searchParams.set('callbackUrl', pathname)
       return NextResponse.redirect(loginUrl)
@@ -24,6 +26,11 @@ export async function middleware(request: NextRequest) {
 
     if (isLoginPage && token) {
       return NextResponse.redirect(new URL('/admin', request.url))
+    }
+
+    // RBAC: Garantir que apenas ADMIN acesse
+    if (token && !is403Page && token.role !== 'ADMIN') {
+      return NextResponse.redirect(new URL('/admin/403', request.url))
     }
   }
 

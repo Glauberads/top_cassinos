@@ -11,7 +11,15 @@ declare module 'next-auth' {
       name?: string | null
       email?: string | null
       image?: string | null
+      role: 'ADMIN' | 'USER'
     }
+  }
+
+  interface User {
+    id: string
+    name?: string | null
+    email?: string | null
+    role: 'ADMIN' | 'USER'
   }
 }
 
@@ -34,16 +42,17 @@ export const authOptions: NextAuthOptions = {
 
         const { email, password } = parsed.data
 
-        const admin = await prisma.admin.findUnique({ where: { email } })
-        if (!admin) return null
+        const user = await prisma.user.findUnique({ where: { email } })
+        if (!user) return null
 
-        const passwordMatch = await bcrypt.compare(password, admin.password)
+        const passwordMatch = await bcrypt.compare(password, user.password)
         if (!passwordMatch) return null
 
         return {
-          id: admin.id,
-          email: admin.email,
-          name: admin.name,
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role as 'ADMIN' | 'USER',
         }
       },
     }),
@@ -60,12 +69,14 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id
+        token.role = user.role
       }
       return token
     },
     async session({ session, token }) {
       if (token && session.user) {
         session.user.id = token.id as string
+        session.user.role = token.role as 'ADMIN' | 'USER'
       }
       return session
     },

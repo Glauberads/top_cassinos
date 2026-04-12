@@ -115,6 +115,15 @@ export default function LoginPage() {
             </button>
           </form>
         </div>
+
+        <div className="mt-6 text-center">
+          <p className="text-zinc-500 text-sm">
+            Não tem uma conta?{' '}
+            <Link href="/auth/register" className="text-amber-500 hover:text-amber-400 font-medium transition-colors">
+              Cadastre-se agora
+            </Link>
+          </p>
+        </div>
       </motion.div>
     </div>
   )

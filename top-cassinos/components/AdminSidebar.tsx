@@ -11,6 +11,7 @@ import {
   LogOut,
   Dices,
   ChevronRight,
+  Shield,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -30,6 +31,11 @@ const NAV_ITEMS = [
     label: 'Leads',
     href: '/admin/leads',
     icon: Users,
+  },
+  {
+    label: 'Usuários',
+    href: '/admin/configuracoes/usuarios',
+    icon: Shield,
   },
   {
     label: 'Configurações',

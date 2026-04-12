@@ -12,13 +12,14 @@ async function main() {
     12
   )
 
-  const admin = await prisma.admin.upsert({
+  const admin = await prisma.user.upsert({
     where: { email: process.env.ADMIN_EMAIL ?? 'admin@topcassinos.com.br' },
     update: {},
     create: {
       email: process.env.ADMIN_EMAIL ?? 'admin@topcassinos.com.br',
       password: hashedPassword,
       name: process.env.ADMIN_NAME ?? 'Administrador',
+      role: 'ADMIN',
     },
   })
   console.log(`✅ Admin criado: ${admin.email}`)
