@@ -11,9 +11,14 @@ const geist = Geist({
 })
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await prisma.settings.findUnique({
-    where: { id: 'default' },
-  })
+  let settings = null
+  try {
+    settings = await prisma.settings.findUnique({
+      where: { id: 'default' },
+    })
+  } catch (error) {
+    console.warn('Failed to fetch settings for metadata during build:', error)
+  }
 
   return {
     title: {
@@ -43,9 +48,14 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const settings = await prisma.settings.findUnique({
-    where: { id: 'default' },
-  })
+  let settings = null
+  try {
+    settings = await prisma.settings.findUnique({
+      where: { id: 'default' },
+    })
+  } catch (error) {
+    console.warn('Failed to fetch settings for layout during build:', error)
+  }
 
   // Fallbacks
   const primaryHex = settings?.primaryColor || '#fbbf24'
