@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Platform {
+  id            String   @id @default(cuid())
+  name          String
+  slug          String   @unique
+  description   String
+  category      String   // "cassino" | "casual" | "esporte" | "lootbox"
+  bannerUrl     String
+  previewUrl    String
+  clientUrl     String
+  adminUrl      String
+  adminLogin    String?
+  adminPassword String?
+  instructions  String?
+  isActive      Boolean  @default(true)
+  featured      Boolean  @default(false)
+  order         Int      @default(0)
+  views         Int      @default(0)
+  tags          String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Admin {
+  id       String @id @default(cuid())
+  email    String @unique
+  password String
+  name     String
+}
+
+model Lead {
+  id        String   @id @default(cuid())
+  name      String
+  whatsapp  String
+  platform  String
+  source    String
+  createdAt DateTime @default(now())
+}
+
+model Settings {
+  id              String   @id @default("default")
+  companyName     String   @default("Top Cassinos")
+  whatsapp        String   @default("")
+  instagram       String   @default("")
+  seoTitle        String   @default("Top Cassinos – Plataformas Prontas para Lucrar")
+  seoDescription  String   @default("")
+  
+  // Customização (White Label)
+  siteName        String   @default("Top Cassinos")
+  logoUrl         String?
+  primaryColor    String   @default("#fbbf24")
+  secondaryColor  String   @default("#000000")
+  heroTitle       String   @default("As melhores plataformas prontas para você lucrar")
+  heroSubtitle    String   @default("Sistemas de cassino, jogos e entretenimento prontos para lançar. Sem código, sem complicação.")
+  faviconUrl      String?
+
+  // Marketing
+  metaPixelId     String?
+  gtmId           String?
+  
+  // Payments
+  stripePublicKey String?
+  stripeSecretKey String?
+  mpPublicKey     String?
+  mpAccessToken   String?
+  
+  updatedAt       DateTime @updatedAt
+}
