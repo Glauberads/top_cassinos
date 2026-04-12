@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Loader2, Dices, Eye, EyeOff } from 'lucide-react'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
