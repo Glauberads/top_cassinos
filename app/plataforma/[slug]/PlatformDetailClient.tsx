@@ -20,6 +20,7 @@ import { IframeViewer } from '@/components/IframeViewer'
 import { LeadModal } from '@/components/LeadModal'
 import { cn, CATEGORY_LABELS, CATEGORY_COLORS, getWhatsappUrl, parseTags } from '@/lib/utils'
 import type { Platform } from '@/lib/types'
+import { trackExternalClick } from '@/app/actions/platforms'
 
 interface PlatformDetailClientProps {
   platform: Platform
@@ -46,6 +47,10 @@ export function PlatformDetailClient({ platform }: PlatformDetailClientProps) {
       .then((data) => setSettings(data))
       .catch(console.error)
   }, [platform.id])
+
+  const handleExternalClick = async () => {
+    trackExternalClick(platform.id).catch(console.error)
+  }
 
   const copyToClipboard = async (text: string, key: string) => {
     await navigator.clipboard.writeText(text)
@@ -220,6 +225,7 @@ export function PlatformDetailClient({ platform }: PlatformDetailClientProps) {
                     href={currentUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={handleExternalClick}
                     className="btn-ghost text-sm py-2"
                     title="Abrir em nova aba"
                   >
@@ -332,6 +338,7 @@ export function PlatformDetailClient({ platform }: PlatformDetailClientProps) {
                   href={platform.clientUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={handleExternalClick}
                   className="flex items-center gap-2 w-full px-3 py-2 bg-zinc-800 border border-zinc-700 hover:border-amber-500/50 rounded-lg text-zinc-300 text-sm transition-all group"
                 >
                   <Eye className="w-4 h-4 text-zinc-500 group-hover:text-amber-400" />
@@ -342,6 +349,7 @@ export function PlatformDetailClient({ platform }: PlatformDetailClientProps) {
                   href={platform.adminUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={handleExternalClick}
                   className="flex items-center gap-2 w-full px-3 py-2 bg-zinc-800 border border-zinc-700 hover:border-amber-500/50 rounded-lg text-zinc-300 text-sm transition-all group"
                 >
                   <Lock className="w-4 h-4 text-zinc-500 group-hover:text-amber-400" />

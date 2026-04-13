@@ -12,6 +12,7 @@ import {
   Dices,
   ChevronRight,
   Shield,
+  LayoutGrid,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -26,6 +27,11 @@ const NAV_ITEMS = [
     label: 'Plataformas',
     href: '/admin/plataformas',
     icon: Monitor,
+  },
+  {
+    label: 'Categorias',
+    href: '/admin/categorias',
+    icon: LayoutGrid,
   },
   {
     label: 'Leads',

@@ -16,7 +16,10 @@ model Platform {
   name          String
   slug          String   @unique
   description   String
-  category      String   // "cassino" | "casual" | "esporte" | "lootbox"
+  category      String   // Manter temporariamente para migração
+  categoryId    String?
+  categoryRef   Category? @relation(fields: [categoryId], references: [id])
+  
   bannerUrl     String
   previewUrl    String
   clientUrl     String
@@ -28,9 +31,18 @@ model Platform {
   featured      Boolean  @default(false)
   order         Int      @default(0)
   views         Int      @default(0)
+  externalClicks Int     @default(0)
   tags          String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+}
+
+model Category {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  description String?
+  platforms   Platform[]
+  createdAt   DateTime   @default(now())
 }
 
 enum Role {

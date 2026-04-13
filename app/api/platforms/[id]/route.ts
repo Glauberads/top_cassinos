@@ -6,7 +6,7 @@ const updateSchema = z.object({
   name: z.string().min(1).optional(),
   slug: z.string().min(1).optional(),
   description: z.string().min(1).optional(),
-  category: z.enum(['cassino', 'casual', 'esporte', 'lootbox']).optional(),
+  categoryId: z.string().min(1).optional(),
   bannerUrl: z.string().url().optional(),
   previewUrl: z.string().url().optional(),
   clientUrl: z.string().url().optional(),
@@ -46,7 +46,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     const data = {
       ...parsed,
-      tags: parsed.tags ? parsed.tags.join(', ') : undefined,
+      tags: Array.isArray(parsed.tags) ? parsed.tags.join(', ') : parsed.tags,
     }
 
     const platform = await prisma.platform.update({ where: { id }, data })

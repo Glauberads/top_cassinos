@@ -6,7 +6,7 @@ const platformSchema = z.object({
   name: z.string().min(1),
   slug: z.string().min(1),
   description: z.string().min(1),
-  category: z.enum(['cassino', 'casual', 'esporte', 'lootbox']),
+  categoryId: z.string().min(1),
   bannerUrl: z.string().url(),
   previewUrl: z.string().url(),
   clientUrl: z.string().url(),
@@ -23,13 +23,16 @@ const platformSchema = z.object({
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
-    const category = searchParams.get('category')
+    const categoryId = searchParams.get('categoryId')
     const activeOnly = searchParams.get('active') !== 'false'
 
     const platforms = await prisma.platform.findMany({
       where: {
         ...(activeOnly ? { isActive: true } : {}),
-        ...(category && category !== 'todos' ? { category } : {}),
+        ...(categoryId && categoryId !== 'todos' ? { categoryId } : {}),
+      },
+      include: {
+        categoryRef: true
       },
       orderBy: [{ featured: 'desc' }, { order: 'asc' }, { createdAt: 'desc' }],
     })
@@ -49,12 +52,13 @@ export async function POST(request: NextRequest) {
     const body: unknown = await request.json()
     const parsed = platformSchema.parse(body)
 
-    const data = {
-      ...parsed,
-      tags: parsed.tags.join(', '),
-    }
-
-    const platform = await prisma.platform.create({ data })
+    const platform = await prisma.platform.create({ 
+      data: {
+        ...parsed,
+        category: '', // Legacy field
+        tags: Array.isArray(parsed.tags) ? parsed.tags.join(', ') : parsed.tags
+      } 
+    })
     return NextResponse.json(platform, { status: 201 })
   } catch (error) {
     if (error instanceof z.ZodError) {

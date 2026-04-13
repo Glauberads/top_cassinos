@@ -15,15 +15,13 @@ import {
   Image as ImageIcon,
 } from 'lucide-react'
 import { generateSlug } from '@/lib/utils'
-
-const CATEGORIES = ['cassino', 'casual', 'esporte', 'lootbox'] as const
-type Category = typeof CATEGORIES[number]
+import { getCategories } from '@/app/actions/categories'
 
 const platformSchema = z.object({
   name: z.string().min(1, 'Nome obrigatório'),
   slug: z.string().min(1, 'Slug obrigatório'),
   description: z.string().min(10, 'Descrição deve ter pelo menos 10 caracteres'),
-  category: z.string().min(1, 'Categoria obrigatória'),
+  categoryId: z.string().min(1, 'Categoria obrigatória'),
   bannerUrl: z.string().url('URL do banner inválida'),
   previewUrl: z.string().url('URL do preview inválida'),
   clientUrl: z.string().url('URL do cliente inválida'),
@@ -48,10 +46,15 @@ interface PlatformFormProps {
 export function PlatformForm({ defaultValues, platformId, isEdit }: PlatformFormProps) {
   const router = useRouter()
   const [success, setSuccess] = useState(false)
-  const [bannerPreview, setBannerPreview] = useState(defaultValues?.bannerUrl ?? '')
-  const [uploading, setUploading] = useState<'banner' | 'preview' | null>(null)
+  const [categories, setCategories] = useState<any[]>([])
   const bannerRef = useRef<HTMLInputElement>(null)
   const previewRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    getCategories().then(res => {
+      if (res.success) setCategories(res.data)
+    })
+  }, [])
 
   const {
     register,
@@ -267,15 +270,15 @@ export function PlatformForm({ defaultValues, platformId, isEdit }: PlatformForm
 
           <div>
             <label className="label">Categoria *</label>
-            <select {...register('category')} className="input-field">
-              <option value="">Selecione...</option>
-              {CATEGORIES.map((cat: Category) => (
-                <option key={cat} value={cat}>
-                  {cat.charAt(0).toUpperCase() + cat.slice(1)}
+            <select {...register('categoryId')} className="input-field">
+              <option value="">Selecione uma categoria...</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
                 </option>
               ))}
             </select>
-            {errors.category && <p className="text-red-400 text-xs mt-1">{errors.category.message}</p>}
+            {errors.categoryId && <p className="text-red-400 text-xs mt-1">{errors.categoryId.message}</p>}
           </div>
 
           <div>
