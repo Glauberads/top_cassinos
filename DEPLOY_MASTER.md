@@ -95,8 +95,9 @@ npx prisma db seed
 
 ### ✅ Checklist de Validação
 - [ ] **Acesso Admin**: Tente logar em `/admin` com as credenciais do SEED.
+- [ ] **Módulo de BI**: Acesse `/admin/categorias`, crie uma categoria teste e verifique se o contador de produtos atualiza.
+- [ ] **Rastreamento de Conversão**: Clique em "Ir para a plataforma" em uma plataforma live e verifique se o contador de "Cliques Externos" sobe no Dashboard de BI da categoria.
 - [ ] **White Label (Logo)**: Vá em Configurações, altere a Logo via Cloudinary e verifique se ela atualiza em tempo real no Header.
-- [ ] **SSL/HTTPS**: Verifique se o cadeado está ativo no domínio.
 - [ ] **Pixels de Marketing**: 
     - Use a extensão **Meta Pixel Helper** para ver se o ID configurado no Admin está disparando o evento `PageView`.
     - Use o **Tag Assistant** para validar o GTM.

@@ -11,6 +11,7 @@ Plataforma completa de vitrine e venda de sistemas digitais prontos (cassino, jo
 - **Marketing:** Meta Pixel & Google Tag Manager (Injeção Dinâmica)
 - **Autenticação:** NextAuth.js (JWT/Credentials)
 - **Storage:** Cloudinary (upload de imagens)
+- **Analytics:** Recharts (BI Dashboard com métricas de conversão)
 - **Deploy:** Vercel (frontend) + Railway/Neon (banco)
 
 ---
@@ -103,6 +104,9 @@ top-cassinos/
 │   │   │   ├── PlatformForm.tsx    # Formulário reutilizável
 │   │   │   ├── nova/page.tsx       # Criar plataforma
 │   │   │   └── [id]/page.tsx       # Editar plataforma
+│   │   ├── categorias/
+│   │   │   ├── page.tsx            # Gestão de categorias (Lista + Modal)
+│   │   │   └── [id]/page.tsx       # BI Dashboard (Gráficos e Métricas)
 │   │   ├── leads/
 │   │   │   └── page.tsx            # Gestão de leads + CSV
 │   │   └── configuracoes/
@@ -113,6 +117,7 @@ top-cassinos/
 │       │   ├── route.ts            # GET lista, POST cria
 │       │   └── [id]/
 │       │       ├── route.ts        # GET, PUT, DELETE
+│       │       ├── click/route.ts  # POST rastreia cliques externos (Conversão)
 │       │       └── view/route.ts   # POST incrementa views
 │       ├── leads/
 │       │   ├── route.ts            # GET lista, POST cria
