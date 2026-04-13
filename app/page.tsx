@@ -119,7 +119,7 @@ export default function HomePage() {
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(true)
   const [total, setTotal] = useState(0)
-  const [settings, setSettings] = useState<any>(null)
+  const [settings, setSettings] = useState<Record<string, any> | null>(null)
 
   useEffect(() => {
     // Fetch platforms
@@ -136,7 +136,7 @@ export default function HomePage() {
     // Fetch settings
     fetch('/api/admin/settings')
       .then((r) => r.json())
-      .then((data) => setSettings(data))
+      .then((data: Record<string, any>) => setSettings(data))
       .catch(console.error)
   }, [])
 

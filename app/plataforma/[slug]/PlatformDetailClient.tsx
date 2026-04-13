@@ -32,7 +32,7 @@ export function PlatformDetailClient({ platform }: PlatformDetailClientProps) {
   const [copied, setCopied] = useState<string | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [views, setViews] = useState(platform.views)
-  const [settings, setSettings] = useState<any>(null)
+  const [settings, setSettings] = useState<Record<string, any> | null>(null)
 
   const currentUrl =
     activeTab === 'client' ? platform.clientUrl : platform.adminUrl
@@ -45,7 +45,7 @@ export function PlatformDetailClient({ platform }: PlatformDetailClientProps) {
 
     fetch('/api/admin/settings')
       .then((r) => r.json())
-      .then((data) => setSettings(data))
+      .then((data: Record<string, any>) => setSettings(data))
       .catch(console.error)
   }, [platform.id])
 

@@ -6,7 +6,7 @@ import { MessageCircle, Dices } from 'lucide-react'
 import { WhatsAppLeadTrigger } from './WhatsAppLeadTrigger'
 
 interface MainHeaderProps {
-  settings?: any
+  settings?: Record<string, any> | null
   siteName: string
   brandFirst: string
   brandRest: string
