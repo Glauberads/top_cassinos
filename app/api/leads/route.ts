@@ -5,7 +5,7 @@ import { z } from 'zod'
 const leadSchema = z.object({
   name: z.string().min(2),
   whatsapp: z.string().min(10),
-  platform: z.string().min(1),
+  platform: z.string().optional(),
   source: z.string().default('site'),
 })
 

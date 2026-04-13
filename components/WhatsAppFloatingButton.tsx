@@ -180,7 +180,7 @@ export function WhatsAppFloatingButton({
                       </button>
 
                       <p className="text-center text-[10px] text-zinc-500">
-                        Ao clicar em "Iniciar Conversa", você concorda com nossos termos de privacidade.
+                        Ao clicar em &quot;Iniciar Conversa&quot;, você concorda com nossos termos de privacidade.
                       </p>
                     </form>
                   </div>

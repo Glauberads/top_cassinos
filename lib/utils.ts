@@ -64,17 +64,22 @@ export function leadsToCSV(
   }>
 ): string {
   const headers = ['ID', 'Nome', 'WhatsApp', 'Plataforma', 'Fonte', 'Status', 'Origem', 'Data']
+  const escape = (val: string | null | undefined) => {
+    const s = String(val || '').replace(/"/g, '""')
+    return `"${s}"`
+  }
+
   const rows = leads.map((lead) => [
-    lead.id,
-    lead.name,
-    lead.whatsapp,
-    lead.platform || '-',
-    lead.source || '-',
-    lead.status || 'Pendente',
-    lead.origin || 'Home',
-    formatDate(lead.createdAt),
+    escape(lead.id),
+    escape(lead.name),
+    escape(lead.whatsapp),
+    escape(lead.platform),
+    escape(lead.source),
+    escape(lead.status || 'Pendente'),
+    escape(lead.origin || 'Home'),
+    escape(formatDate(lead.createdAt)),
   ])
-  return [headers, ...rows].map((row) => row.join(',')).join('\n')
+  return [headers.map(h => `"${h}"`), ...rows].map((row) => row.join(',')).join('\n')
 }
 
 export function parseTags(tags: string | null | undefined): string[] {
@@ -92,7 +97,8 @@ export function hexToHsl(hex: string): string {
   const b = parseInt(hex.substring(4, 6), 16) / 255
 
   const max = Math.max(r, g, b), min = Math.min(r, g, b)
-  let h = 0, s, l = (max + min) / 2
+  let h = 0, s
+  const l = (max + min) / 2
 
   if (max === min) {
     h = s = 0 // achromatic

@@ -7,6 +7,7 @@ import { z } from 'zod'
 import { X, MessageCircle, Loader2, CheckCircle2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { getWhatsappUrl } from '@/lib/utils'
+import { createLead } from '@/app/actions/leads'
 
 const leadSchema = z.object({
   name: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres'),
@@ -43,13 +44,15 @@ export function LeadModal({ isOpen, onClose, platformName }: LeadModalProps) {
   })
 
   async function onSubmit(data: LeadForm) {
-    const res = await fetch('/api/leads', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+    const result = await createLead({
+      name: data.name,
+      whatsapp: data.whatsapp,
+      platform: data.platform,
+      source: data.source,
+      origin: 'Plataforma Page'
     })
-
-    if (res.ok) {
+    
+    if (result.success) {
       setSuccess(true)
       reset()
       setTimeout(() => {
