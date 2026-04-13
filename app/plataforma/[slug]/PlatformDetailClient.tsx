@@ -18,6 +18,7 @@ import {
 } from 'lucide-react'
 import { IframeViewer } from '@/components/IframeViewer'
 import { LeadModal } from '@/components/LeadModal'
+import { WhatsAppLeadTrigger } from '@/components/WhatsAppLeadTrigger'
 import { cn, CATEGORY_LABELS, CATEGORY_COLORS, getWhatsappUrl, parseTags } from '@/lib/utils'
 import type { Platform } from '@/lib/types'
 import { trackExternalClick } from '@/app/actions/platforms'
@@ -94,15 +95,12 @@ export function PlatformDetailClient({ platform }: PlatformDetailClientProps) {
               )}
             </div>
 
-            <a
-              href={getWhatsappUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary text-sm py-2 px-3"
-            >
-              <MessageCircle className="w-4 h-4" />
-              <span className="hidden sm:block">WhatsApp</span>
-            </a>
+            <WhatsAppLeadTrigger origin={`Header Platform: ${platform.name}`}>
+              <button className="btn-secondary text-sm py-2 px-3 flex items-center gap-2">
+                <MessageCircle className="w-4 h-4" />
+                <span className="hidden sm:block">WhatsApp</span>
+              </button>
+            </WhatsAppLeadTrigger>
           </div>
         </div>
       </header>
@@ -376,16 +374,11 @@ export function PlatformDetailClient({ platform }: PlatformDetailClientProps) {
                 <MessageCircle className="w-5 h-5" />
                 Quero esta plataforma!
               </button>
-              <a
-                href={getWhatsappUrl(
-                  `Olá! Tenho interesse na plataforma ${platform.name}`
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-ghost w-full justify-center mt-2 text-sm"
-              >
-                Falar direto no WhatsApp
-              </a>
+              <WhatsAppLeadTrigger origin={`Direct Contact: ${platform.name}`}>
+                <button className="btn-ghost w-full justify-center mt-2 text-sm">
+                  Falar direto no WhatsApp
+                </button>
+              </WhatsAppLeadTrigger>
             </motion.div>
           </div>
         </div>

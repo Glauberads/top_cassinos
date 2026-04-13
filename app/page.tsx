@@ -22,6 +22,7 @@ import {
 import { PlatformCard } from '@/components/PlatformCard'
 import { CategoryFilter } from '@/components/CategoryFilter'
 import { SearchBar } from '@/components/SearchBar'
+import { WhatsAppLeadTrigger } from '@/components/WhatsAppLeadTrigger'
 import { getWhatsappUrl, parseTags } from '@/lib/utils'
 import type { Platform } from '@/lib/types'
 
@@ -192,15 +193,12 @@ export default function HomePage() {
               </Link>
             </nav>
 
-            <a
-              href={getWhatsappUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary text-sm py-2 px-4"
-            >
-              <MessageCircle className="w-4 h-4" />
-              WhatsApp
-            </a>
+            <WhatsAppLeadTrigger origin="Header">
+              <button className="btn-primary text-sm py-2 px-4 flex items-center gap-2">
+                <MessageCircle className="w-4 h-4" />
+                WhatsApp
+              </button>
+            </WhatsAppLeadTrigger>
           </div>
         </div>
       </header>
@@ -261,15 +259,12 @@ export default function HomePage() {
                 Ver plataformas
                 <ArrowRight className="w-5 h-5" />
               </a>
-              <a
-                href={getWhatsappUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-secondary text-base px-8 py-4"
-              >
-                <MessageCircle className="w-5 h-5" />
-                Falar com especialista
-              </a>
+              <WhatsAppLeadTrigger origin="Hero Specialist">
+                <button className="btn-secondary text-base px-8 py-4 flex items-center gap-2">
+                  <MessageCircle className="w-5 h-5" />
+                  Falar com especialista
+                </button>
+              </WhatsAppLeadTrigger>
             </motion.div>
           </motion.div>
 
@@ -435,15 +430,12 @@ export default function HomePage() {
               Fale com nosso especialista agora mesmo e monte seu negócio digital hoje.
             </motion.p>
             <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href={getWhatsappUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary text-base px-8 py-4"
-              >
-                <MessageCircle className="w-5 h-5" />
-                Falar via WhatsApp
-              </a>
+              <WhatsAppLeadTrigger origin="Final CTA">
+                <button className="btn-primary text-base px-8 py-4 flex items-center gap-2">
+                  <MessageCircle className="w-5 h-5" />
+                  Falar via WhatsApp
+                </button>
+              </WhatsAppLeadTrigger>
               <Link href="/contato" className="btn-secondary text-base px-8 py-4">
                 Formulário de contato
               </Link>
@@ -475,15 +467,12 @@ export default function HomePage() {
             </Link>
 
             <div className="flex flex-col sm:flex-row items-center gap-4 text-sm text-zinc-400">
-              <a
-                href={getWhatsappUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 hover:text-primary transition-colors"
-              >
-                <MessageCircle className="w-4 h-4" />
-                +55 22 99215-7330
-              </a>
+              <WhatsAppLeadTrigger origin="Footer">
+                <button className="flex items-center gap-2 hover:text-primary transition-colors">
+                  <MessageCircle className="w-4 h-4" />
+                  +55 22 99215-7330
+                </button>
+              </WhatsAppLeadTrigger>
               <span className="hidden sm:block text-zinc-700">•</span>
               <Link href="/contato" className="hover:text-primary transition-colors">
                 Contato

@@ -10,7 +10,7 @@ export const WHATSAPP_NUMBER = '5522992157330'
 export function getWhatsappUrl(message?: string) {
   const text = message
     ? encodeURIComponent(message)
-    : encodeURIComponent('Olá, vim pelo Top Cassinos!')
+    : encodeURIComponent('Olá! venho atraves do site Plataformas Top')
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`
 }
 
