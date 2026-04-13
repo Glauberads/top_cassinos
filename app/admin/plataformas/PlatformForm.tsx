@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
@@ -47,12 +47,14 @@ export function PlatformForm({ defaultValues, platformId, isEdit }: PlatformForm
   const router = useRouter()
   const [success, setSuccess] = useState(false)
   const [categories, setCategories] = useState<any[]>([])
+  const [uploading, setUploading] = useState<'banner' | 'preview' | null>(null)
+  const [bannerPreview, setBannerPreview] = useState(defaultValues?.bannerUrl || '')
   const bannerRef = useRef<HTMLInputElement>(null)
   const previewRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     getCategories().then(res => {
-      if (res.success) setCategories(res.data)
+      if (res.success && res.data) setCategories(res.data as any[])
     })
   }, [])
 

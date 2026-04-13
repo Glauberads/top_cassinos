@@ -13,15 +13,16 @@ export default function AdminCategoriesPage() {
   const [search, setSearch] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true)
-      const result = await getCategories()
-      if (result.success) {
-        setCategories(result.data)
-      }
-      setLoading(false)
+  const fetchData = async () => {
+    setLoading(true)
+    const result = await getCategories()
+    if (result.success && result.data) {
+      setCategories(result.data as any[])
     }
+    setLoading(false)
+  }
+
+  useEffect(() => {
     fetchData()
   }, [])
 

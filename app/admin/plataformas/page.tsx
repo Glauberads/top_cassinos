@@ -12,7 +12,8 @@ import {
   ToggleRight,
   Loader2,
 } from 'lucide-react'
-import { cn, CATEGORY_LABELS, CATEGORY_COLORS, formatDate } from '@/lib/utils'
+import { cn, formatDate } from '@/lib/utils'
+import { getCategories } from '@/app/actions/categories'
 import type { Platform } from '@prisma/client'
 
 export default function AdminPlatformsPage() {
@@ -22,15 +23,22 @@ export default function AdminPlatformsPage() {
   const [loading, setLoading] = useState(true)
   const [toggling, setToggling] = useState<string | null>(null)
 
+  const [availableCategories, setAvailableCategories] = useState<any[]>([])
+
   const fetchPlatforms = useCallback(async () => {
     setLoading(true)
     const res = await fetch('/api/platforms?active=false')
-    const data: Platform[] = await res.json()
+    const data: any[] = await res.json()
     setPlatforms(data)
     setLoading(false)
   }, [])
 
-  useEffect(() => { void fetchPlatforms() }, [fetchPlatforms])
+  useEffect(() => { 
+    void fetchPlatforms() 
+    getCategories().then(res => {
+      if (res.success && res.data) setAvailableCategories(res.data as any[])
+    })
+  }, [fetchPlatforms])
 
   async function toggleActive(platform: Platform) {
     setToggling(platform.id)
@@ -49,13 +57,13 @@ export default function AdminPlatformsPage() {
     await fetchPlatforms()
   }
 
-  const filtered = platforms.filter((p) => {
-    const matchCat = category === 'todos' || p.category === category
+  const filtered = platforms.filter((p: any) => {
+    const matchCat = category === 'todos' || p.categoryId === category
     const q = search.toLowerCase()
     const matchSearch =
       !search ||
       p.name.toLowerCase().includes(q) ||
-      p.category.toLowerCase().includes(q)
+      (p.categoryRef?.name || '').toLowerCase().includes(q)
     return matchCat && matchSearch
   })
 
@@ -88,19 +96,30 @@ export default function AdminPlatformsPage() {
             className="input-field pl-10"
           />
         </div>
-        <div className="flex gap-2">
-          {CATEGORIES.map((cat) => (
+        <div className="flex gap-2 flex-wrap">
+          <button
+            onClick={() => setCategory('todos')}
+            className={cn(
+              'px-3 py-2 rounded-xl text-sm font-medium border transition-all duration-200',
+              category === 'todos'
+                ? 'bg-amber-500 text-zinc-950 border-amber-500'
+                : 'bg-zinc-900 text-zinc-400 border-zinc-700 hover:border-amber-500/50'
+            )}
+          >
+            Todos
+          </button>
+          {availableCategories.map((cat) => (
             <button
-              key={cat}
-              onClick={() => setCategory(cat)}
+              key={cat.id}
+              onClick={() => setCategory(cat.id)}
               className={cn(
                 'px-3 py-2 rounded-xl text-sm font-medium border transition-all duration-200',
-                category === cat
+                category === cat.id
                   ? 'bg-amber-500 text-zinc-950 border-amber-500'
                   : 'bg-zinc-900 text-zinc-400 border-zinc-700 hover:border-amber-500/50'
               )}
             >
-              {cat === 'todos' ? 'Todos' : CATEGORY_LABELS[cat]}
+              {cat.name}
             </button>
           ))}
         </div>
@@ -158,14 +177,8 @@ export default function AdminPlatformsPage() {
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span
-                        className={cn(
-                          'badge',
-                          CATEGORY_COLORS[platform.category] ??
-                            'bg-zinc-800 text-zinc-400 border-zinc-700'
-                        )}
-                      >
-                        {CATEGORY_LABELS[platform.category] ?? platform.category}
+                      <span className="bg-zinc-800 text-zinc-400 border border-zinc-700 px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider">
+                        {(platform as any).categoryRef?.name || 'Sem categoria'}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-sm text-zinc-400">

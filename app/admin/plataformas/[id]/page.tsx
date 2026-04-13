@@ -19,7 +19,7 @@ export default async function EditPlatformPage({ params }: PageProps) {
         name: platform.name,
         slug: platform.slug,
         description: platform.description,
-        category: platform.category as 'cassino' | 'casual' | 'esporte' | 'lootbox',
+        categoryId: platform.categoryId ?? '',
         bannerUrl: platform.bannerUrl,
         previewUrl: platform.previewUrl,
         clientUrl: platform.clientUrl,
