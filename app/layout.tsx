@@ -42,6 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 import { ToastProvider } from '@/components/ToastProvider'
+import { WhatsAppFloatingButton } from '@/components/WhatsAppFloatingButton'
 
 export default async function RootLayout({
   children,
@@ -111,6 +112,10 @@ export default async function RootLayout({
       <body className={`${geist.variable} font-sans antialiased`}>
         <ToastProvider>
           {children}
+          <WhatsAppFloatingButton 
+            origin="Home" 
+            whatsappNumber={settings?.whatsapp || undefined} 
+          />
         </ToastProvider>
       </body>
     </html>

@@ -56,18 +56,22 @@ export function leadsToCSV(
     id: string
     name: string
     whatsapp: string
-    platform: string
-    source: string
+    platform?: string | null
+    source?: string | null
+    status?: string | null
+    origin?: string | null
     createdAt: Date
   }>
 ): string {
-  const headers = ['ID', 'Nome', 'WhatsApp', 'Plataforma', 'Fonte', 'Data']
+  const headers = ['ID', 'Nome', 'WhatsApp', 'Plataforma', 'Fonte', 'Status', 'Origem', 'Data']
   const rows = leads.map((lead) => [
     lead.id,
     lead.name,
     lead.whatsapp,
-    lead.platform,
-    lead.source,
+    lead.platform || '-',
+    lead.source || '-',
+    lead.status || 'Pendente',
+    lead.origin || 'Home',
     formatDate(lead.createdAt),
   ])
   return [headers, ...rows].map((row) => row.join(',')).join('\n')
