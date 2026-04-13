@@ -196,7 +196,7 @@ export default function HomePage() {
             <WhatsAppLeadTrigger origin="Header">
               <button className="btn-primary text-sm py-2 px-4 flex items-center gap-2">
                 <MessageCircle className="w-4 h-4" />
-                WhatsApp
+                Suporte WhatsApp
               </button>
             </WhatsAppLeadTrigger>
           </div>
@@ -262,7 +262,7 @@ export default function HomePage() {
               <WhatsAppLeadTrigger origin="Hero Specialist">
                 <button className="btn-secondary text-base px-8 py-4 flex items-center gap-2">
                   <MessageCircle className="w-5 h-5" />
-                  Falar com especialista
+                  Falar com Especialista Agora
                 </button>
               </WhatsAppLeadTrigger>
             </motion.div>
